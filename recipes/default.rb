@@ -21,4 +21,4 @@
 return unless platform?('windows')
 
 include_recipe 'wsus-client::configure'
-include_recipe 'wsus-client::update'
+#include_recipe 'wsus-client::update'
