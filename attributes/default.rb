@@ -21,11 +21,11 @@
 return unless platform?('windows')
 
 # Defines whether a custom WSUS server should be used instead of Microsoft Windows Update server.
-default['wsus_client']['wsus_server']                              = nil
+default['wsus_client']['wsus_server']                              = 'http://10.0.2.172:8530'
 
 # Defines the current computer update group.
 # => Truthy value also enable client-side update group targeting.
-default['wsus_client']['update_group']                             = nil
+default['wsus_client']['update_group']                             = 'Test-1'
 
 # Disables access to Windows Update (or your WSUS server).
 default['wsus_client']['disable_windows_update_access']            = false
