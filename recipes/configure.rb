@@ -24,7 +24,7 @@
 # WSUS is a windows only feature
 return unless platform?('windows')
 
-conf = node['wsus_client']
+conf = node['wsus-client']
 
 # Converts days symbols to AUOptions value
 install_day = WsusClient::Helper.get_install_day conf['schedule_install_day']
@@ -51,12 +51,12 @@ registry_key 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate' do
     # Authorizes Users to approve or disapprove updates.
     { type:  :dword, name:              'ElevateNonAdmins', data: conf['allow_user_to_install_updates'] ? 1 : 0 },
     # Defines the current computer update group.
-    { type: :string, name:                   'TargetGroup', data: node['wsus_client']['update_group'] } || '',
+    { type: :string, name:                   'TargetGroup', data: node['wsus-client']['update_group'] } || '',
     # Allows client-side update group targeting.
-    { type:  :dword, name:            'TargetGroupEnabled', data: node['wsus_client']['update_group'] ? 1 : 0 },
+    { type:  :dword, name:            'TargetGroupEnabled', data: node['wsus-client']['update_group'] ? 1 : 0 },
     # Defines the WSUS Server url.
-    { type: :string, name:                      'WUServer', data: node['wsus_client']['wsus_server'] },
-    { type: :string, name:                'WUStatusServer', data: node['wsus_client']['wsus_server'] },
+    { type: :string, name:                      'WUServer', data: node['wsus-client']['wsus_server'] },
+    { type: :string, name:                'WUStatusServer', data: node['wsus-client']['wsus_server'] },
   ]
   notifies :restart, 'service[wuauserv]', :immediately
   notifies :run, 'powershell_script[Force Windows update detection cycle]', :immediately
