@@ -5,11 +5,6 @@ write-output "Running User Data Script"
 write-output "Setting TZ"
 cmd.exe /c tzutil /s "Eastern Standard Time"
 
-write-output "Setting up Packer user"
-cmd.exe /c net user /add packer ReAnCloud#2017
-cmd.exe /c net localgroup administrators packer /add
-cmd.exe /c wmic useraccount where "name='packer'" set PasswordExpires=FALSE
-
 #setting execution policy
 Set-ExecutionPolicy Unrestricted -Force
 
