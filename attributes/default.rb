@@ -87,7 +87,7 @@ default['wsus-client']['update']['install_timeout']                = 3600
 # Indicate whether to reboot or not after update install.
 default['wsus-client']['update']['handle_reboot']                  = false
 # The amount of time (in minutes) to delay the reboot.
-default['wsus_client']['update']['reboot_delay']                   = 1
+default['wsus-client']['update']['reboot_delay']                   = 1
 # added guard because some time we may need to managed wsus by client to make same code work for both I added this turn key solution.
 default['wsus-client']['managed_wsus_source']                      = false
 default['wsus-client']['run_update']                               = false
