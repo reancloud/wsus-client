@@ -21,5 +21,5 @@
 return unless platform?('windows')
 
 # added guard because some time we may need to managed wsus by client to make same code work for both I added this turn key solution.
-include_recipe 'wsus-client::configure' if node['wsus-client']['managed_wsus_source']
-include_recipe 'wsus-client::update' if node['wsus-client']['run_update']
+include_recipe 'wsus-client::configure' if node['wsus-client']['managed_wsus_source'].to_s.downcase == 'true'
+include_recipe 'wsus-client::update' if node['wsus-client']['run_update'].to_s.downcase == 'true'
