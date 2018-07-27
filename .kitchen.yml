@@ -1,0 +1,61 @@
+---
+driver:
+  name: ec2
+  region: <%= ENV['AWS_REGION'] %>
+  subnet_id: <%= ENV['SUBNET_ID'] %>
+  security_group_ids: ["<%= ENV['SG_ID'] %>"]
+  aws_ssh_key_id: <%= ENV['SSH_KEY'] %>
+  iam_profile_name: <%= ENV['IAM_PROFILE'] %>
+  associate_public_ip: <%= ENV['PUBLIC_IP'] %>
+  tags:
+    Owner: <%= ENV['TAGS_OWNER'] %>
+    Environment: <%= ENV['TAGS_ENVIRONMENT'] %>
+    Project: <%= ENV['TAGS_PROJECT'] %>
+    ExpirationDate: "<%= ENV['TAGS_EXPIRY'] %>"
+
+transport:
+  ssh_key: <%= ENV['SSH_KEY_PATH'] %>
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: WSUS-Client-2012R2
+    driver:
+      instance_type: c4.xlarge
+      image_id: ami-e777f886
+      user_data: user_data_windows.ps1
+      block_device_mappings:
+      - device_name: /dev/sda1
+        ebs:
+          volume_size: 500
+          delete_on_termination: true
+      tags:
+        Name: <%= ENV['TAGS_ENVIRONMENT']%>-STIG-USTC-windows-2008r2-MS
+    transport:
+      name: winrm
+  - name: WSUS-Client-2008R2
+    driver: 
+      instance_type: c4.xlarge
+      image_id: ami-ddd05bbc
+      user_data: user_data_windows.ps1
+      block_device_mappings:
+      - device_name: /dev/sda1
+        ebs:
+          volume_size: 500
+          delete_on_termination: true
+      tags:
+        Name: <%= ENV['TAGS_ENVIRONMENT']%>-STIG-USTC-windows-2012r2-MS
+    transport:
+      name: winrm
+suites:
+  - name: default
+    run_list:
+      - recipe[wsus-client::configure]
+    attributes:
+      wsus-client:
+        wsus_server: 'http://10.0.2.172:8530'
+        update_group: 'Test-1'
+    verifier:
+      inspec_tests:
+        - test/smoke/default
